@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Elements/Navbar";
 import ProfileImage from "../assets/profile.jpg";
 import { Bookmark } from "lucide-react";
 
 export default function Profile() {
+  const [profile, setProfile] = useState({
+    nama: "Yang Jungwon",
+    lokasi: "Bandung",
+    email: "yangjungwon@gmail.com",
+    phone: "088888888888",
+  });
+
+  useEffect(() => {
+    setProfile({
+      nama: localStorage.getItem("auth_fullname") || "Yang Jungwon",
+      lokasi: "Bandung", // tidak ada di localStorage → pakai default
+      email: localStorage.getItem("auth_email") || "yangjungwon@gmail.com",
+      phone: localStorage.getItem("auth_phone") || "088888888888",
+    });
+  }, []);
+
   return (
     <section className="min-h-screen">
       <Navbar />
@@ -15,65 +31,49 @@ export default function Profile() {
         <div className="bg-gray-100 flex flex-col justify-center border border-yellow-300 rounded-lg px-5 lg:px-15 py-5 w-full lg:w-auto">
           <div>
             <div className="flex flex-col space-y-1">
-              <label
-                htmlFor="nama"
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="nama" className="text-sm font-medium text-gray-700">
                 Nama Lengkap
               </label>
               <input
                 id="nama"
                 type="text"
-                placeholder="Masukkan nama"
-                value="Yang Jungwon"
+                value={profile.nama}
                 className="px-[0.20rem] font-bold w-full lg:w-64 py-1 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
               />
             </div>
 
             <div className="flex flex-col space-y-1 mt-2">
-              <label
-                htmlFor="lokasi"
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="lokasi" className="text-sm font-medium text-gray-700">
                 Lokasi Kota
               </label>
               <input
                 id="lokasi"
                 type="text"
-                placeholder="Masukkan lokasi"
-                value="Bandung"
+                value={profile.lokasi}
                 className="px-[0.20rem] font-bold w-full lg:w-64 py-1 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
               />
             </div>
 
             <div className="flex flex-col space-y-1 mt-2">
-              <label
-                htmlFor="email"
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="text-sm font-medium text-gray-700">
                 Email
               </label>
               <input
                 id="email"
                 type="email"
-                placeholder="Masukkan email"
-                value="yangjungwon@gmail.com"
+                value={profile.email}
                 className="px-[0.20rem] font-bold w-full lg:w-64 py-1 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
               />
             </div>
 
             <div className="flex flex-col space-y-1 mt-2">
-              <label
-                htmlFor="no_hp"
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="no_hp" className="text-sm font-medium text-gray-700">
                 Nomor Telepon
               </label>
               <input
                 id="no_hp"
                 type="text"
-                placeholder="Masukkan nomor telepon"
-                value="088888888888"
+                value={profile.phone}
                 className="px-[0.20rem] font-bold w-full lg:w-64 py-1 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
               />
             </div>
@@ -83,6 +83,8 @@ export default function Profile() {
             Ubah Data
           </button>
         </div>
+
+        {/* Bagian Favorit tetap sama */}
         <div className="w-full">
           <div className="flex gap-3 mb-5 ml-2 lg:ml-0">
             <Bookmark size={24} />
